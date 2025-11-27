@@ -509,11 +509,15 @@ function AddEventModal({ onClose, onAdd }: AddEventModalProps) {
               className="input-field"
             >
               <option value="">No specific class</option>
-              {classes.map((cls) => (
-                <option key={cls.id} value={cls.id}>
-                  {cls.subjectName}
-                </option>
-              ))}
+              {classes
+                .filter((cls, index, self) => 
+                  self.findIndex(c => c.subjectId === cls.subjectId) === index
+                )
+                .map((cls) => (
+                  <option key={cls.id} value={cls.id}>
+                    {cls.subjectName}
+                  </option>
+                ))}
             </select>
           </div>
           
@@ -612,11 +616,15 @@ function AddTaskModal({ onClose, onAdd }: AddTaskModalProps) {
                 className="input-field"
               >
                 <option value="">No class</option>
-                {classes.map((cls) => (
-                  <option key={cls.id} value={cls.id}>
-                    {cls.subjectName}
-                  </option>
-                ))}
+                {classes
+                  .filter((cls, index, self) => 
+                    self.findIndex(c => c.subjectId === cls.subjectId) === index
+                  )
+                  .map((cls) => (
+                    <option key={cls.id} value={cls.id}>
+                      {cls.subjectName}
+                    </option>
+                  ))}
               </select>
             </div>
             
