@@ -4,7 +4,6 @@ import BottomNav from './components/BottomNav';
 import HomePage from './pages/HomePage';
 import SchedulePage from './pages/SchedulePage';
 import AttendancePage from './pages/AttendancePage';
-import AssignmentsPage from './pages/AssignmentsPage';
 import EventsPage from './pages/EventsPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import SubjectsPage from './pages/SubjectsPage';
@@ -30,7 +29,6 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/schedule" element={<SchedulePage />} />
             <Route path="/attendance" element={<AttendancePage />} />
-            <Route path="/assignments" element={<AssignmentsPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/analytics" element={<AnalyticsPage />} />
             <Route path="/subjects" element={<SubjectsPage />} />

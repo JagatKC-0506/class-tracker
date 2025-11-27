@@ -97,7 +97,7 @@ export default function HomePage() {
             <span className="stat-label">Absent</span>
           </div>
         </div>
-        <div className="stat-card" onClick={() => navigate('/assignments')}>
+        <div className="stat-card" onClick={() => navigate('/events')}>
           <div className="stat-icon pending">
             <AlertCircle size={24} />
           </div>
@@ -158,7 +158,7 @@ export default function HomePage() {
         <section className="section">
           <div className="section-header">
             <h2><TrendingUp size={20} /> Pending Tasks</h2>
-            <button className="link-btn" onClick={() => navigate('/assignments')}>
+            <button className="link-btn" onClick={() => navigate('/events')}>
               View All <ChevronRight size={16} />
             </button>
           </div>
