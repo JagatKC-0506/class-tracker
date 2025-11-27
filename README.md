@@ -1,5 +1,10 @@
 <div align="center">
 
+<<<<<<< HEAD
+=======
+<img src="public/icons/icon-192x192.png" alt="Class Tracker Logo" width="120" />
+
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 # 📚 Class Tracker
 
 ### Your All-in-One Academic Companion
@@ -12,12 +17,21 @@
 
 *Stay organized, track attendance, manage assignments, and never miss an important event!*
 
+<<<<<<< HEAD
 [Features](#-features) • [Installation](#-installation) • [Run Project](#%EF%B8%8F-run-project) • [Build APK](#-build-apk) • [Tech Stack](#-tech-stack)
 
 </div>
 
 ---
 
+=======
+[Features](#-features) • [Installation](#-installation) • [Run Project](#-run-project) • [Build APK](#-build-apk) • [Tech Stack](#-tech-stack)
+
+---
+
+</div>
+
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 ## ✨ Features
 
 | Feature | Description |
@@ -43,7 +57,11 @@ Before you begin, ensure you have the following installed:
 | **npm** | v9+ | Comes with Node.js |
 | **Git** | Latest | [git-scm.com](https://git-scm.com/) |
 | **Android Studio** | Latest | [developer.android.com](https://developer.android.com/studio) |
+<<<<<<< HEAD
 | **JDK** | 17+ | [adoptium.net](https://adoptium.net/) |
+=======
+| **JDK** | 21 | [adoptium.net](https://adoptium.net/) |
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 
 ---
 
@@ -52,7 +70,11 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
+<<<<<<< HEAD
 git clone https://github.com/JagatKC-0506/class-tracker.git
+=======
+git clone https://github.com/yourusername/class-tracker.git
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 cd class-tracker
 ```
 
@@ -186,15 +208,25 @@ cd android
 
 ---
 
+<<<<<<< HEAD
 ## 🛠 Tech Stack
+=======
+## 🛠️ Tech Stack
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 
 <div align="center">
 
 | Category | Technology |
 |----------|------------|
 | **Frontend** | React 19.2, TypeScript 5.9 |
+<<<<<<< HEAD
 | **Build Tool** | Vite 7.2 (Rolldown) |
 | **State Management** | Zustand 5.0 |
+=======
+| **Build Tool** | Vite 7.2 |
+| **Styling** | Tailwind CSS |
+| **State Management** | Zustand |
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 | **Routing** | React Router 7.9 |
 | **Charts** | Recharts 3.5 |
 | **Icons** | Lucide React |
@@ -213,6 +245,7 @@ class-tracker/
 ├── 📂 src/
 │   ├── 📂 components/      # Reusable UI components
 │   ├── 📂 pages/           # Application pages
+<<<<<<< HEAD
 │   │   ├── HomePage.tsx        # Dashboard with today's classes
 │   │   ├── SchedulePage.tsx    # Weekly schedule management
 │   │   ├── AttendancePage.tsx  # Attendance tracking
@@ -220,6 +253,15 @@ class-tracker/
 │   │   ├── EventsPage.tsx      # Events & exams
 │   │   ├── AnalyticsPage.tsx   # Statistics & charts
 │   │   └── SetupPage.tsx       # Initial setup wizard
+=======
+│   │   ├── HomePage.tsx
+│   │   ├── SchedulePage.tsx
+│   │   ├── AttendancePage.tsx
+│   │   ├── AssignmentsPage.tsx
+│   │   ├── EventsPage.tsx
+│   │   ├── AnalyticsPage.tsx
+│   │   └── SetupPage.tsx
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 │   ├── 📂 store/           # Zustand state management
 │   ├── 📂 types/           # TypeScript definitions
 │   ├── 📂 utils/           # Helper functions
@@ -256,6 +298,7 @@ class-tracker/
 
 ---
 
+<<<<<<< HEAD
 ## 💻 Usage
 
 ### Initial Setup
@@ -282,6 +325,12 @@ When adding new classes from the Schedule page:
 
 ## 🔧 Troubleshooting
 
+=======
+## 🔧 Troubleshooting
+
+### Common Issues
+
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 <details>
 <summary><b>Gradle build fails</b></summary>
 
@@ -315,6 +364,7 @@ npm install
 ```
 </details>
 
+<<<<<<< HEAD
 <details>
 <summary><b>Android Studio can't find SDK</b></summary>
 
@@ -324,11 +374,17 @@ npm install
 4. Sync Gradle
 </details>
 
+=======
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 ---
 
 ## 🤝 Contributing
 
+<<<<<<< HEAD
 Contributions are welcome! Here's how you can help:
+=======
+Contributions are welcome! Please follow these steps:
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 
 1. **Fork** the repository
 2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
@@ -340,7 +396,11 @@ Contributions are welcome! Here's how you can help:
 
 ## 📄 License
 
+<<<<<<< HEAD
 This project is open source and available under the [MIT License](LICENSE).
+=======
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 
 ---
 
@@ -361,6 +421,10 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ⭐ **Star this repo if you find it helpful!** ⭐
 
+<<<<<<< HEAD
 [Report Bug](https://github.com/JagatKC-0506/class-tracker/issues) • [Request Feature](https://github.com/JagatKC-0506/class-tracker/issues)
+=======
+[Report Bug](https://github.com/yourusername/class-tracker/issues) • [Request Feature](https://github.com/yourusername/class-tracker/issues)
+>>>>>>> 1f4afc76812fe198979532f4cf132e88f0a9bbc6
 
 </div>
