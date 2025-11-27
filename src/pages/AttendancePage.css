@@ -1,0 +1,249 @@
+.attendance-page {
+  padding-bottom: 80px;
+}
+
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 0 0 24px 24px;
+  margin-bottom: 1rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-header p {
+  margin: 0.25rem 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+.nav-btn {
+  background: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: #f3f4f6;
+}
+
+.week-label {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.day-selector {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.day-selector::-webkit-scrollbar {
+  display: none;
+}
+
+.day-selector .day-btn {
+  flex: 1;
+  min-width: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.5rem;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.day-selector .day-btn:hover {
+  border-color: #667eea;
+}
+
+.day-selector .day-btn.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+}
+
+.day-selector .day-btn.today:not(.selected) {
+  border-color: #667eea;
+}
+
+.day-name {
+  font-size: 0.7rem;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.day-num {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.day-btn.selected .day-name,
+.day-btn.selected .day-num {
+  color: white;
+}
+
+.has-classes {
+  position: absolute;
+  bottom: 6px;
+  width: 6px;
+  height: 6px;
+  background: #667eea;
+  border-radius: 50%;
+}
+
+.day-btn.selected .has-classes {
+  background: white;
+}
+
+.attendance-content {
+  padding: 0 1rem;
+}
+
+.attendance-content h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  color: #374151;
+}
+
+.empty-state {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty-state svg {
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.class-attendance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.attendance-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  border-left: 4px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.class-details {
+  margin-bottom: 1rem;
+}
+
+.class-details h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.class-time-room {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.attendance-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.att-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.att-btn.present {
+  color: #9ca3af;
+}
+
+.att-btn.present:hover,
+.att-btn.present.active {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.att-btn.late {
+  color: #9ca3af;
+}
+
+.att-btn.late:hover,
+.att-btn.late.active {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.att-btn.absent {
+  color: #9ca3af;
+}
+
+.att-btn.absent:hover,
+.att-btn.absent.active {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.att-btn.excused {
+  color: #9ca3af;
+}
+
+.att-btn.excused:hover,
+.att-btn.excused.active {
+  background: #e0e7ff;
+  border-color: #6366f1;
+  color: #6366f1;
+}

@@ -1,0 +1,422 @@
+.home-page {
+  padding-bottom: 80px;
+}
+
+.home-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 0 0 24px 24px;
+  margin-bottom: 1rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.greeting h1 {
+  margin: 0;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.greeting p {
+  margin: 0.25rem 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.stat-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.stat-circle::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: white;
+  border-radius: 50%;
+}
+
+.stat-circle span {
+  position: relative;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #1f2937;
+}
+
+.quick-stats {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  flex: 1;
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon.present {
+  background: #dcfce7;
+  color: #22c55e;
+}
+
+.stat-icon.absent {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.stat-icon.pending {
+  background: #fef3c7;
+  color: #f59e0b;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.section {
+  padding: 0 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0;
+}
+
+.empty-state {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty-state svg {
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  margin: 0;
+  font-weight: 600;
+  color: #374151;
+}
+
+.empty-state span {
+  font-size: 0.9rem;
+}
+
+.class-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.today-class-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  border-left: 4px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.today-class-card:hover {
+  transform: translateX(4px);
+}
+
+.today-class-card.current {
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.class-time {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.time-separator {
+  color: #d1d5db;
+}
+
+.class-info h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.class-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.attendance-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem;
+  border-radius: 50%;
+}
+
+.attendance-badge.present {
+  color: #22c55e;
+}
+
+.attendance-badge.absent {
+  color: #ef4444;
+}
+
+.attendance-badge.late {
+  color: #f59e0b;
+}
+
+.current-badge {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.event-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.event-date {
+  min-width: 50px;
+  text-align: center;
+  padding: 0.5rem;
+  background: #f3f4f6;
+  border-radius: 12px;
+}
+
+.event-day {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.event-month {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.event-info {
+  flex: 1;
+}
+
+.event-type {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.event-type.exam {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.event-type.quiz {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.event-type.presentation {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.event-type.project {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.event-info h4 {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.event-class {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.reminder-icon {
+  color: #667eea;
+}
+
+.assignment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.assignment-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.assignment-card:hover {
+  transform: translateX(4px);
+}
+
+.assignment-card.overdue {
+  border: 1px solid #fee2e2;
+  background: #fffbfb;
+}
+
+.assignment-indicator {
+  width: 4px;
+  height: 40px;
+  border-radius: 2px;
+}
+
+.assignment-info {
+  flex: 1;
+}
+
+.assignment-info h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.assignment-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.priority {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.priority.high {
+  color: #ef4444;
+}
+
+.priority.medium {
+  color: #f59e0b;
+}
+
+.priority.low {
+  color: #22c55e;
+}
+
+.due-date {
+  color: #6b7280;
+}
+
+.assignment-arrow {
+  color: #d1d5db;
+}
