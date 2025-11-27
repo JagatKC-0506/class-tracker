@@ -18,11 +18,11 @@ import {
   formatTime,
   generateId
 } from '../utils/helpers';
-import type { ClassSchedule, DayOfWeek } from '../types';
+import type { ClassSchedule, DayOfWeek, Subject } from '../types';
 import './SchedulePage.css';
 
 export default function SchedulePage() {
-  const { classes, addClass, updateClass, deleteClass } = useStore();
+  const { classes, subjects, addClass, updateClass, deleteClass, addSubject } = useStore();
   const [selectedDay, setSelectedDay] = useState<DayOfWeek>('monday');
   const [showModal, setShowModal] = useState(false);
   const [editingClass, setEditingClass] = useState<ClassSchedule | null>(null);
@@ -37,6 +37,49 @@ export default function SchedulePage() {
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingClass(null);
+  };
+
+  // Save new subject and add class
+  const handleSaveClass = (classData: Partial<ClassSchedule>, selectedDays?: DayOfWeek[]) => {
+    // If it's a new subject (no subjectId), save it first
+    let subjectId = classData.subjectId;
+    if (!subjectId && classData.subjectName) {
+      // Check if subject already exists by name
+      const existingSubject = subjects.find(
+        s => s.name.toLowerCase() === classData.subjectName?.toLowerCase()
+      );
+      
+      if (existingSubject) {
+        subjectId = existingSubject.id;
+      } else {
+        // Create new subject
+        const newSubject: Subject = {
+          id: generateId(),
+          name: classData.subjectName,
+          code: classData.subjectCode || '',
+          instructor: classData.instructor || '',
+          room: classData.room || '',
+          color: classData.color || CLASS_COLORS[0],
+        };
+        addSubject(newSubject);
+        subjectId = newSubject.id;
+      }
+    }
+
+    // Add class with subjectId
+    const classWithSubjectId = { ...classData, subjectId };
+
+    if (editingClass) {
+      updateClass(editingClass.id, classWithSubjectId);
+    } else if (selectedDays && selectedDays.length > 0) {
+      // Add class for each selected day
+      selectedDays.forEach((day) => {
+        addClass({ ...classWithSubjectId, day, id: generateId() } as ClassSchedule);
+      });
+    } else {
+      addClass({ ...classWithSubjectId, id: generateId() } as ClassSchedule);
+    }
+    handleCloseModal();
   };
 
   return (
@@ -176,19 +219,7 @@ export default function SchedulePage() {
           classItem={editingClass}
           selectedDay={selectedDay}
           onClose={handleCloseModal}
-          onSave={(classData, selectedDays) => {
-            if (editingClass) {
-              updateClass(editingClass.id, classData);
-            } else if (selectedDays && selectedDays.length > 0) {
-              // Add class for each selected day
-              selectedDays.forEach((day) => {
-                addClass({ ...classData, day, id: generateId() } as ClassSchedule);
-              });
-            } else {
-              addClass({ ...classData, id: generateId() } as ClassSchedule);
-            }
-            handleCloseModal();
-          }}
+          onSave={handleSaveClass}
         />
       )}
     </div>
@@ -203,7 +234,12 @@ interface ClassModalProps {
 }
 
 function ClassModal({ classItem, selectedDay, onClose, onSave }: ClassModalProps) {
+  const { subjects } = useStore();
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string>(classItem?.subjectId || '');
+  const [useExistingSubject, setUseExistingSubject] = useState<boolean>(subjects.length > 0 && !classItem);
+  
   const [formData, setFormData] = useState({
+    subjectId: classItem?.subjectId || '',
     subjectName: classItem?.subjectName || '',
     subjectCode: classItem?.subjectCode || '',
     instructor: classItem?.instructor || '',
@@ -216,6 +252,36 @@ function ClassModal({ classItem, selectedDay, onClose, onSave }: ClassModalProps
   // For new classes, allow multiple day selection
   const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([classItem?.day || selectedDay]);
   const isEditing = !!classItem;
+
+  // Handle subject selection from dropdown
+  const handleSubjectSelect = (subjectId: string) => {
+    setSelectedSubjectId(subjectId);
+    if (subjectId) {
+      const subject = subjects.find(s => s.id === subjectId);
+      if (subject) {
+        setFormData({
+          ...formData,
+          subjectId: subject.id,
+          subjectName: subject.name,
+          subjectCode: subject.code,
+          instructor: subject.instructor,
+          room: subject.room,
+          color: subject.color,
+        });
+      }
+    } else {
+      // Clear form when "New Subject" is selected
+      setFormData({
+        ...formData,
+        subjectId: '',
+        subjectName: '',
+        subjectCode: '',
+        instructor: '',
+        room: '',
+        color: CLASS_COLORS[0],
+      });
+    }
+  };
 
   const toggleDay = (day: DayOfWeek) => {
     if (isEditing) {
@@ -257,52 +323,121 @@ function ClassModal({ classItem, selectedDay, onClose, onSave }: ClassModalProps
         </div>
         
         <form onSubmit={handleSubmit}>
-          <div className="form-row">
-            <div className="form-group flex-2">
-              <label>Subject Name *</label>
-              <input
-                type="text"
-                value={formData.subjectName}
-                onChange={(e) => setFormData({ ...formData, subjectName: e.target.value })}
-                placeholder="e.g., Data Structures"
-                className="input-field"
-                autoFocus
-              />
+          {/* Subject Selection - Only show for new classes when subjects exist */}
+          {!isEditing && subjects.length > 0 && (
+            <div className="form-group">
+              <label>Choose Subject</label>
+              <div className="subject-toggle">
+                <button
+                  type="button"
+                  className={`toggle-btn ${useExistingSubject ? 'active' : ''}`}
+                  onClick={() => {
+                    setUseExistingSubject(true);
+                    if (subjects.length > 0 && !selectedSubjectId) {
+                      handleSubjectSelect(subjects[0].id);
+                    }
+                  }}
+                >
+                  Existing Subject
+                </button>
+                <button
+                  type="button"
+                  className={`toggle-btn ${!useExistingSubject ? 'active' : ''}`}
+                  onClick={() => {
+                    setUseExistingSubject(false);
+                    handleSubjectSelect('');
+                  }}
+                >
+                  New Subject
+                </button>
+              </div>
             </div>
-            <div className="form-group flex-1">
-              <label>Code</label>
-              <input
-                type="text"
-                value={formData.subjectCode}
-                onChange={(e) => setFormData({ ...formData, subjectCode: e.target.value })}
-                placeholder="CS201"
-                className="input-field"
-              />
-            </div>
-          </div>
+          )}
 
-          <div className="form-row">
-            <div className="form-group flex-1">
-              <label><User size={14} /> Instructor</label>
-              <input
-                type="text"
-                value={formData.instructor}
-                onChange={(e) => setFormData({ ...formData, instructor: e.target.value })}
-                placeholder="Dr. Smith"
-                className="input-field"
-              />
+          {/* Dropdown for existing subjects */}
+          {!isEditing && useExistingSubject && subjects.length > 0 && (
+            <div className="form-group">
+              <label>Select Subject *</label>
+              <select
+                value={selectedSubjectId}
+                onChange={(e) => handleSubjectSelect(e.target.value)}
+                className="input-field select-field"
+              >
+                <option value="">-- Select a subject --</option>
+                {subjects.map((subject) => (
+                  <option key={subject.id} value={subject.id}>
+                    {subject.name} {subject.code ? `(${subject.code})` : ''} - {subject.instructor || 'No instructor'}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="form-group flex-1">
-              <label><MapPin size={14} /> Room</label>
-              <input
-                type="text"
-                value={formData.room}
-                onChange={(e) => setFormData({ ...formData, room: e.target.value })}
-                placeholder="Room 101"
-                className="input-field"
-              />
+          )}
+
+          {/* Manual entry fields - show when creating new subject or editing */}
+          {(!useExistingSubject || isEditing || subjects.length === 0) && (
+            <>
+              <div className="form-row">
+                <div className="form-group flex-2">
+                  <label>Subject Name *</label>
+                  <input
+                    type="text"
+                    value={formData.subjectName}
+                    onChange={(e) => setFormData({ ...formData, subjectName: e.target.value })}
+                    placeholder="e.g., Data Structures"
+                    className="input-field"
+                    autoFocus
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label>Code</label>
+                  <input
+                    type="text"
+                    value={formData.subjectCode}
+                    onChange={(e) => setFormData({ ...formData, subjectCode: e.target.value })}
+                    placeholder="CS201"
+                    className="input-field"
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group flex-1">
+                  <label><User size={14} /> Instructor</label>
+                  <input
+                    type="text"
+                    value={formData.instructor}
+                    onChange={(e) => setFormData({ ...formData, instructor: e.target.value })}
+                    placeholder="Dr. Smith"
+                    className="input-field"
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label><MapPin size={14} /> Room</label>
+                  <input
+                    type="text"
+                    value={formData.room}
+                    onChange={(e) => setFormData({ ...formData, room: e.target.value })}
+                    placeholder="Room 101"
+                    className="input-field"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Show selected subject preview when using existing */}
+          {!isEditing && useExistingSubject && selectedSubjectId && (
+            <div className="selected-subject-preview" style={{ borderLeftColor: formData.color }}>
+              <div className="preview-header">
+                <strong>{formData.subjectName}</strong>
+                {formData.subjectCode && <span className="preview-code">{formData.subjectCode}</span>}
+              </div>
+              <div className="preview-details">
+                {formData.instructor && <span><User size={12} /> {formData.instructor}</span>}
+                {formData.room && <span><MapPin size={12} /> {formData.room}</span>}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="form-group">
             <label>Day{isEditing ? '' : 's'} of Week {!isEditing && <span className="days-hint">(select multiple)</span>}</label>
