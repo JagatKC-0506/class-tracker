@@ -20,7 +20,7 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
-  AlertTriangle,
+  Ban,
   Target
 } from 'lucide-react';
 import { calculateAttendanceStats, getWeeklyAttendanceData } from '../utils/helpers';
@@ -30,7 +30,7 @@ const COLORS = {
   present: '#22c55e',
   absent: '#ef4444',
   late: '#f59e0b',
-  excused: '#6366f1',
+  cancelled: '#9333ea',
 };
 
 export default function AnalyticsPage() {
@@ -55,7 +55,7 @@ export default function AnalyticsPage() {
     const present = subjectAttendance.filter(a => a.status === 'present').length;
     const absent = subjectAttendance.filter(a => a.status === 'absent').length;
     const late = subjectAttendance.filter(a => a.status === 'late').length;
-    const excused = subjectAttendance.filter(a => a.status === 'excused').length;
+    const cancelled = subjectAttendance.filter(a => a.status === 'cancelled').length;
     const percentage = total > 0 ? Math.round(((present + late) / total) * 100) : 0;
     
     return {
@@ -66,7 +66,7 @@ export default function AnalyticsPage() {
       present,
       absent,
       late,
-      excused,
+      cancelled,
       total,
       color: subject.color,
       classCount: subjectClassIds.length,
@@ -78,7 +78,7 @@ export default function AnalyticsPage() {
     { name: 'Present', value: overallStats.present, color: COLORS.present },
     { name: 'Absent', value: overallStats.absent, color: COLORS.absent },
     { name: 'Late', value: overallStats.late, color: COLORS.late },
-    { name: 'Excused', value: overallStats.excused, color: COLORS.excused },
+    { name: 'Cancelled', value: overallStats.cancelled, color: COLORS.cancelled },
   ].filter((d) => d.value > 0);
 
   return (
@@ -129,11 +129,11 @@ export default function AnalyticsPage() {
               <span className="stat-text">Late</span>
             </div>
           </div>
-          <div className="stat-mini excused">
-            <AlertTriangle size={20} />
+          <div className="stat-mini cancelled">
+            <Ban size={20} />
             <div>
-              <span className="stat-num">{overallStats.excused}</span>
-              <span className="stat-text">Excused</span>
+              <span className="stat-num">{overallStats.cancelled}</span>
+              <span className="stat-text">Cancelled</span>
             </div>
           </div>
         </div>

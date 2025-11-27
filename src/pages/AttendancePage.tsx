@@ -7,7 +7,7 @@ import {
   CheckCircle2, 
   XCircle, 
   Clock, 
-  AlertTriangle,
+  Ban,
   Calendar
 } from 'lucide-react';
 import { 
@@ -128,11 +128,11 @@ export default function AttendancePage() {
                       <XCircle size={24} />
                     </button>
                     <button
-                      className={`att-btn excused ${record?.status === 'excused' ? 'active' : ''}`}
-                      onClick={() => handleMarkAttendance(cls.id, 'excused')}
-                      title="Excused"
+                      className={`att-btn cancelled ${record?.status === 'cancelled' ? 'active' : ''}`}
+                      onClick={() => handleMarkAttendance(cls.id, 'cancelled')}
+                      title="Cancelled"
                     >
-                      <AlertTriangle size={24} />
+                      <Ban size={24} />
                     </button>
                   </div>
                 </div>

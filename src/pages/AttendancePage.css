@@ -237,13 +237,13 @@
   color: #ef4444;
 }
 
-.att-btn.excused {
+.att-btn.cancelled {
   color: #9ca3af;
 }
 
-.att-btn.excused:hover,
-.att-btn.excused.active {
-  background: #e0e7ff;
-  border-color: #6366f1;
-  color: #6366f1;
+.att-btn.cancelled:hover,
+.att-btn.cancelled.active {
+  background: #f3e8ff;
+  border-color: #9333ea;
+  color: #9333ea;
 }

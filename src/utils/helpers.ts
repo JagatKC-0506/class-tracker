@@ -80,10 +80,10 @@ export const calculateAttendanceStats = (
   const present = records.filter((a) => a.status === 'present').length;
   const absent = records.filter((a) => a.status === 'absent').length;
   const late = records.filter((a) => a.status === 'late').length;
-  const excused = records.filter((a) => a.status === 'excused').length;
+  const cancelled = records.filter((a) => a.status === 'cancelled').length;
   const percentage = total > 0 ? Math.round(((present + late) / total) * 100) : 0;
 
-  return { total, present, absent, late, excused, percentage };
+  return { total, present, absent, late, cancelled, percentage };
 };
 
 export const getWeeklyAttendanceData = (

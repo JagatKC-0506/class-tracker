@@ -109,12 +109,12 @@
   color: #f59e0b;
 }
 
-.stat-mini.excused {
-  border-left: 4px solid #6366f1;
+.stat-mini.cancelled {
+  border-left: 4px solid #9333ea;
 }
 
-.stat-mini.excused svg {
-  color: #6366f1;
+.stat-mini.cancelled svg {
+  color: #9333ea;
 }
 
 .stat-mini div {
