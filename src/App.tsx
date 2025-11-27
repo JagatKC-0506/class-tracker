@@ -7,6 +7,7 @@ import AttendancePage from './pages/AttendancePage';
 import AssignmentsPage from './pages/AssignmentsPage';
 import EventsPage from './pages/EventsPage';
 import AnalyticsPage from './pages/AnalyticsPage';
+import SubjectsPage from './pages/SubjectsPage';
 import SetupPage from './pages/SetupPage';
 import './App.css';
 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/assignments" element={<AssignmentsPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/subjects" element={<SubjectsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

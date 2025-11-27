@@ -4,7 +4,7 @@ import {
   Calendar, 
   CheckSquare, 
   CalendarDays, 
-  BarChart3 
+  BookOpen 
 } from 'lucide-react';
 import './BottomNav.css';
 
@@ -19,6 +19,10 @@ export default function BottomNav() {
         <Calendar size={22} />
         <span>Schedule</span>
       </NavLink>
+      <NavLink to="/subjects" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+        <BookOpen size={22} />
+        <span>Subjects</span>
+      </NavLink>
       <NavLink to="/attendance" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
         <CheckSquare size={22} />
         <span>Attendance</span>
@@ -26,10 +30,6 @@ export default function BottomNav() {
       <NavLink to="/events" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
         <CalendarDays size={22} />
         <span>Events</span>
-      </NavLink>
-      <NavLink to="/analytics" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-        <BarChart3 size={22} />
-        <span>Stats</span>
       </NavLink>
     </nav>
   );

@@ -11,7 +11,8 @@ import {
   BookOpen,
   Bell,
   TrendingUp,
-  ChevronRight
+  ChevronRight,
+  BarChart3
 } from 'lucide-react';
 import { 
   getTodaysClasses, 
@@ -63,7 +64,10 @@ export default function HomePage() {
             <h1>Good {getGreeting()}! 👋</h1>
             <p>{format(new Date(), 'EEEE, MMMM d, yyyy')}</p>
           </div>
-          <div className="header-stats">
+          <div className="header-actions">
+            <button className="stats-btn" onClick={() => navigate('/analytics')} title="View Stats">
+              <BarChart3 size={22} />
+            </button>
             <div className="stat-circle" style={{ 
               background: `conic-gradient(#22c55e ${stats.percentage * 3.6}deg, #e5e7eb 0deg)` 
             }}>

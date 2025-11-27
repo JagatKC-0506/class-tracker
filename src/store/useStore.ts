@@ -24,6 +24,7 @@ interface StoreState {
   // Subject actions
   addSubject: (subject: Subject) => void;
   updateSubject: (id: string, subject: Partial<Subject>) => void;
+  updateSubjectAndClasses: (id: string, subject: Partial<Subject>) => void;
   deleteSubject: (id: string) => void;
 
   // Class actions
@@ -79,6 +80,37 @@ export const useStore = create<StoreState>()(
             s.id === id ? { ...s, ...subject } : s
           ),
         })),
+      
+      // Update subject and sync changes to all related classes
+      updateSubjectAndClasses: (id, subject) =>
+        set((state) => {
+          const updatedSubjects = state.subjects.map((s) =>
+            s.id === id ? { ...s, ...subject } : s
+          );
+          
+          // Find the updated subject to get the new values
+          const updatedSubject = updatedSubjects.find(s => s.id === id);
+          
+          // Update all classes that reference this subject
+          const updatedClasses = state.classes.map((c) => {
+            if (c.subjectId === id && updatedSubject) {
+              return {
+                ...c,
+                subjectName: updatedSubject.name,
+                subjectCode: updatedSubject.code,
+                instructor: updatedSubject.instructor,
+                room: updatedSubject.room,
+                color: updatedSubject.color,
+              };
+            }
+            return c;
+          });
+          
+          return {
+            subjects: updatedSubjects,
+            classes: updatedClasses,
+          };
+        }),
       
       deleteSubject: (id) =>
         set((state) => ({

@@ -234,6 +234,13 @@
   font-weight: 700;
 }
 
+.subject-schedule-info {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  padding-left: 0.75rem;
+}
+
 .class-detail-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

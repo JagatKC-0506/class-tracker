@@ -34,25 +34,44 @@ const COLORS = {
 };
 
 export default function AnalyticsPage() {
-  const { classes, attendance } = useStore();
+  const { subjects, classes, attendance } = useStore();
   
   const overallStats = calculateAttendanceStats(attendance);
   const weeklyData = getWeeklyAttendanceData(attendance, 8);
   
-  // Per-class statistics
-  const classStats = classes.map((cls) => {
-    const stats = calculateAttendanceStats(attendance, cls.id);
+  // Per-SUBJECT statistics (not per-class)
+  // Group classes by subjectId and aggregate attendance
+  const subjectStats = subjects.map((subject) => {
+    // Get all class IDs for this subject
+    const subjectClassIds = classes
+      .filter(c => c.subjectId === subject.id)
+      .map(c => c.id);
+    
+    // Filter attendance records for these classes
+    const subjectAttendance = attendance.filter(a => subjectClassIds.includes(a.classId));
+    
+    // Calculate stats
+    const total = subjectAttendance.length;
+    const present = subjectAttendance.filter(a => a.status === 'present').length;
+    const absent = subjectAttendance.filter(a => a.status === 'absent').length;
+    const late = subjectAttendance.filter(a => a.status === 'late').length;
+    const excused = subjectAttendance.filter(a => a.status === 'excused').length;
+    const percentage = total > 0 ? Math.round(((present + late) / total) * 100) : 0;
+    
     return {
-      name: cls.subjectName.length > 10 ? cls.subjectName.slice(0, 10) + '...' : cls.subjectName,
-      fullName: cls.subjectName,
-      percentage: stats.percentage,
-      present: stats.present,
-      absent: stats.absent,
-      late: stats.late,
-      total: stats.total,
-      color: cls.color,
+      id: subject.id,
+      name: subject.name.length > 12 ? subject.name.slice(0, 12) + '...' : subject.name,
+      fullName: subject.name,
+      percentage,
+      present,
+      absent,
+      late,
+      excused,
+      total,
+      color: subject.color,
+      classCount: subjectClassIds.length,
     };
-  });
+  }).filter(s => s.total > 0 || s.classCount > 0); // Only show subjects with classes or attendance
 
   // Pie chart data
   const pieData = [
@@ -220,15 +239,15 @@ export default function AnalyticsPage() {
         </section>
       )}
 
-      {/* Per-Class Statistics */}
-      {classStats.length > 0 && (
+      {/* Per-Subject Statistics */}
+      {subjectStats.length > 0 && (
         <section className="chart-section">
           <div className="section-header">
             <h2><BarChart3 size={20} /> By Subject</h2>
           </div>
           <div className="chart-container">
-            <ResponsiveContainer width="100%" height={Math.max(200, classStats.length * 50)}>
-              <BarChart data={classStats} layout="vertical">
+            <ResponsiveContainer width="100%" height={Math.max(200, subjectStats.length * 50)}>
+              <BarChart data={subjectStats} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" horizontal={false} />
                 <XAxis 
                   type="number" 
@@ -245,9 +264,9 @@ export default function AnalyticsPage() {
                   width={80}
                 />
                 <Tooltip 
-                  formatter={(value: number, name: string, props: { payload?: { fullName?: string; total?: number } }) => {
+                  formatter={(value: number, name: string, props: { payload?: { fullName?: string; total?: number; classCount?: number } }) => {
                     if (props.payload) {
-                      return [`${value}% (${props.payload.total} classes)`, props.payload.fullName];
+                      return [`${value}% (${props.payload.total} classes across ${props.payload.classCount} day${props.payload.classCount !== 1 ? 's' : ''}/week)`, props.payload.fullName];
                     }
                     return [`${value}%`, name];
                   }}
@@ -261,7 +280,7 @@ export default function AnalyticsPage() {
                   dataKey="percentage" 
                   radius={[0, 8, 8, 0]}
                 >
-                  {classStats.map((entry, index) => (
+                  {subjectStats.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Bar>
@@ -271,42 +290,45 @@ export default function AnalyticsPage() {
         </section>
       )}
 
-      {/* Class Detail Cards */}
-      {classStats.length > 0 && (
+      {/* Subject Detail Cards */}
+      {subjectStats.length > 0 && (
         <section className="class-details-section">
           <div className="section-header">
-            <h2>Class Breakdown</h2>
+            <h2>Subject Breakdown</h2>
           </div>
           <div className="class-detail-cards">
-            {classStats.map((cls) => (
-              <div key={cls.fullName} className="class-detail-card">
-                <div className="class-detail-header" style={{ borderLeftColor: cls.color }}>
-                  <h3>{cls.fullName}</h3>
+            {subjectStats.map((subject) => (
+              <div key={subject.id} className="class-detail-card">
+                <div className="class-detail-header" style={{ borderLeftColor: subject.color }}>
+                  <h3>{subject.fullName}</h3>
                   <span 
                     className="class-percentage"
                     style={{ 
-                      color: cls.percentage >= 75 ? COLORS.present : 
-                             cls.percentage >= 50 ? COLORS.late : COLORS.absent 
+                      color: subject.percentage >= 75 ? COLORS.present : 
+                             subject.percentage >= 50 ? COLORS.late : COLORS.absent 
                     }}
                   >
-                    {cls.percentage}%
+                    {subject.percentage}%
                   </span>
+                </div>
+                <div className="subject-schedule-info">
+                  <span>{subject.classCount} class{subject.classCount !== 1 ? 'es' : ''}/week</span>
                 </div>
                 <div className="class-detail-stats">
                   <div className="detail-stat present">
-                    <span>{cls.present}</span>
+                    <span>{subject.present}</span>
                     <span>Present</span>
                   </div>
                   <div className="detail-stat absent">
-                    <span>{cls.absent}</span>
+                    <span>{subject.absent}</span>
                     <span>Absent</span>
                   </div>
                   <div className="detail-stat late">
-                    <span>{cls.late}</span>
+                    <span>{subject.late}</span>
                     <span>Late</span>
                   </div>
                   <div className="detail-stat total">
-                    <span>{cls.total}</span>
+                    <span>{subject.total}</span>
                     <span>Total</span>
                   </div>
                 </div>
@@ -314,8 +336,8 @@ export default function AnalyticsPage() {
                   <div 
                     className="progress-fill"
                     style={{ 
-                      width: `${cls.percentage}%`,
-                      backgroundColor: cls.color
+                      width: `${subject.percentage}%`,
+                      backgroundColor: subject.color
                     }}
                   />
                 </div>

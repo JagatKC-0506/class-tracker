@@ -11,7 +11,13 @@ import {
   X,
   AlertCircle
 } from 'lucide-react';
-import { generateId, requestNotificationPermission, sendNotification } from '../utils/helpers';
+import { generateId } from '../utils/helpers';
+import { 
+  initializeNotifications, 
+  scheduleEventNotification, 
+  cancelEventNotification,
+  rescheduleAllNotifications 
+} from '../utils/notifications';
 import type { ClassEvent, EventType } from '../types';
 import './EventsPage.css';
 
@@ -28,30 +34,29 @@ export default function EventsPage() {
   const { events, classes, addEvent, updateEvent, deleteEvent } = useStore();
   const [showModal, setShowModal] = useState(false);
   const [filter, setFilter] = useState<'upcoming' | 'past' | 'all'>('upcoming');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
-  // Check for events today and send notifications
+  // Initialize notifications on mount and reschedule all event notifications
   useEffect(() => {
-    const checkNotifications = async () => {
-      const hasPermission = await requestNotificationPermission();
-      if (!hasPermission) return;
-
-      events.forEach((event) => {
-        if (event.reminderEnabled && isToday(new Date(event.date))) {
-          // Check if we haven't already notified (using localStorage)
-          const notifiedKey = `notified_${event.id}_${event.date}`;
-          if (!localStorage.getItem(notifiedKey)) {
-            sendNotification(
-              `📅 ${event.title}`,
-              `${event.type.charAt(0).toUpperCase() + event.type.slice(1)} is today!`,
-            );
-            localStorage.setItem(notifiedKey, 'true');
-          }
-        }
-      });
+    const setupNotifications = async () => {
+      const enabled = await initializeNotifications();
+      setNotificationsEnabled(enabled);
+      
+      if (enabled) {
+        // Reschedule all notifications when the page loads
+        await rescheduleAllNotifications(events);
+      }
     };
 
-    checkNotifications();
-  }, [events]);
+    setupNotifications();
+  }, []); // Only run once on mount
+
+  // Reschedule notifications when events change
+  useEffect(() => {
+    if (notificationsEnabled) {
+      rescheduleAllNotifications(events);
+    }
+  }, [events, notificationsEnabled]);
 
   const filteredEvents = events
     .filter((e) => {
@@ -69,8 +74,19 @@ export default function EventsPage() {
       return filter === 'past' ? dateB - dateA : dateA - dateB;
     });
 
-  const toggleReminder = (eventId: string, currentState: boolean) => {
+  const toggleReminder = async (eventId: string, currentState: boolean) => {
     updateEvent(eventId, { reminderEnabled: !currentState });
+    
+    const event = events.find(e => e.id === eventId);
+    if (event) {
+      if (!currentState) {
+        // Enabling reminder - schedule notification
+        await scheduleEventNotification({ ...event, reminderEnabled: true });
+      } else {
+        // Disabling reminder - cancel notification
+        await cancelEventNotification(eventId);
+      }
+    }
   };
 
   return (
